@@ -3,7 +3,11 @@ import uuid
 import csv
 import os
 
-def connect_db():
+
+
+
+def connect_db():  
+    """Connects to MySQL server (without a specific DB)"""
     try:
         return mysql.connector.connect(
             host="localhost",
@@ -14,7 +18,11 @@ def connect_db():
         print(f"Error connecting to MySQL: {err}")
         return None
 
-def create_database(connection):
+
+
+
+def create_database(connection): 
+    """Creates the ALX_prodev database if it doesn't exist"""
     try:
         cursor = connection.cursor()
         cursor.execute("CREATE DATABASE IF NOT EXISTS ALX_prodev")
@@ -23,7 +31,11 @@ def create_database(connection):
     except mysql.connector.Error as err:
         print(f"Error creating database: {err}")
 
+
+
+
 def connect_to_prodev():
+    """Connects to the ALX_prodev database"""
     try:
         return mysql.connector.connect(
             host="localhost",
@@ -35,7 +47,11 @@ def connect_to_prodev():
         print(f"Error connecting to ALX_prodev: {err}")
         return None
 
+
+
+
 def create_table(connection):
+    """Creates the user_data table in the ALX_prodev database"""
     try:
         cursor = connection.cursor()
         cursor.execute("""
@@ -53,7 +69,11 @@ def create_table(connection):
     except mysql.connector.Error as err:
         print(f"Error creating table: {err}")
 
+
+
+
 def insert_data(connection, csv_file):
+    """Inserts data from a CSV file into the user_data table"""
     try:
         if not os.path.exists(csv_file):
             print(f"{csv_file} not found.")
