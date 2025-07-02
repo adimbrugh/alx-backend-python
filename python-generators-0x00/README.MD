@@ -36,7 +36,6 @@ python-generators-0x00/
 ├── user_data.csv
 └── README.md
 
-
 ---
 
 ### 🚀 Usage Instructions
