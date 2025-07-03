@@ -11,11 +11,11 @@ def paginate_users(page_size, offset):
         )
         cursor = connection.cursor()
 
-
-
-
-
-
+        query = """
+            SELECT user_id, name, email, age
+            FROM user_data
+            LIMIT %s OFFSET %s
+        """
        # ✅ Now uses SELECT * FROM user_data LIMIT ...
         cursor.execute("SELECT * FROM user_data LIMIT %s OFFSET %s", (page_size, offset))
         results = cursor.fetchall()
