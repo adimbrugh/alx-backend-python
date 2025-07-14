@@ -11,3 +11,8 @@ class GithubOrgClient:
         """Fetch organization metadata."""
         url = f"https://api.github.com/orgs/{self.org_name}"
         return get_json(url)
+    
+    @property
+    def _public_repos_url(self):
+        """Return the repos URL from the organization metadata."""
+        return self.org["repos_url"]
