@@ -1,33 +1,23 @@
-#!/usr/bin/env python3
-import unittest
-from parameterized import parameterized
+from unittest import TestCase
 from unittest.mock import patch
+from parameterized import parameterized
 from client import GithubOrgClient
 
 
-class TestGithubOrgClient(unittest.TestCase):
+class TestGithubOrgClient(TestCase):
     """Tests for GithubOrgClient.org"""
 
     @parameterized.expand([
-        ("google_case", "google"),
-        ("abc_case", "abc"),
+        ("google", {"login": "google", "id": 123}),
+        ("abc", {"login": "abc", "id": 456}),
     ])
     @patch("client.get_json")
-    def test_org(self, org_name, mock_get_json):
-        """GithubOrgClient.org returns expected result and get_json is called correctly."""
-
-        # Setup the mock return value
-        expected_payload = {"login": org_name, "id": 123}
+    def test_org(self, org_name, expected_payload, mock_get_json):
+        """Test that GithubOrgClient.org returns expected result and get_json is called correctly."""
         mock_get_json.return_value = expected_payload
 
-        # Instantiate client and call .org property
         client = GithubOrgClient(org_name)
         result = client.org
 
-        # Assert get_json was called exactly once with the right URL
-        mock_get_json.assert_called_once_with(
-            f"https://api.github.com/orgs/{org_name}"
-        )
-
-        # Assert .org returns the mocked payload
+        mock_get_json.assert_called_once_with(f"https://api.github.com/orgs/{org_name}")
         self.assertEqual(result, expected_payload)
