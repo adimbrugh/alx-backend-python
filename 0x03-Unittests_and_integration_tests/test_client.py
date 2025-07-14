@@ -1,24 +1,33 @@
 #!/usr/bin/env python3
-from unittest import TestCase
-from unittest.mock import patch
+import unittest
 from parameterized import parameterized
+from unittest.mock import patch
 from client import GithubOrgClient
 
 
-class TestGithubOrgClient(TestCase):
+class TestGithubOrgClient(unittest.TestCase):
     """Tests for GithubOrgClient.org"""
 
     @parameterized.expand([
-        ("google", {"login": "google", "id": 123}),
-        ("abc", {"login": "abc", "id": 456}),
+        ("google",),
+        ("abc",),
     ])
     @patch("client.get_json")
-    def test_org(self, org_name, expected_payload, mock_get_json):
-        """Test that GithubOrgClient.org returns expected result and get_json is called correctly."""
+    def test_org(self, org_name, mock_get_json):
+        """GithubOrgClient.org returns expected result and get_json."""
+
+        # Setup the mock return value
+        expected_payload = {"login": org_name, "id": 123}
         mock_get_json.return_value = expected_payload
 
+        # Instantiate client and call .org property
         client = GithubOrgClient(org_name)
         result = client.org
 
-        mock_get_json.assert_called_once_with(f"https://api.github.com/orgs/{org_name}")
+        # Assert get_json was called exactly once with the right URL
+        mock_get_json.assert_called_once_with(
+            f"https://api.github.com/orgs/{org_name}"
+        )
+
+        # Assert .org returns the mocked payload
         self.assertEqual(result, expected_payload)
