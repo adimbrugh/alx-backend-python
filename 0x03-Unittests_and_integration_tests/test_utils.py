@@ -2,13 +2,10 @@
 
 #!/usr/bin/env python3
 
+import unittest
 from parameterized import parameterized
 from unittest.mock import patch, Mock
-from utils import access_nested_map
-from unittest import TestCase
-from utils import get_json
-from utils import memoize
-import unittest
+from utils import access_nested_map, get_json, memoize
 
 
 
@@ -39,7 +36,7 @@ class TestAccessNestedMap(unittest.TestCase):
         
 
 
-class TestGetJson(TestCase):
+class TestGetJson(unittest.TestCase):
     """Test get_json function with mocked HTTP GET requests."""
 
     @parameterized.expand([
@@ -78,7 +75,7 @@ class TestGetJson(TestCase):
 
 
 
-class TestMemoize(TestCase): 
+class TestMemoize(unittest.TestCase): 
     """Unit test for the memoize decorator."""
 
     def test_memoize(self):
