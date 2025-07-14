@@ -32,11 +32,6 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(result, expected_payload)
 
 
-class TestGithubOrgClient(unittest.TestCase):
-    """Tests for GithubOrgClient"""
-
-    # ... (previous test_org method here)
-
     def test_public_repos_url(self):
         """Test that _public_repos_url returns correct repos URL from mocked org"""
 
