@@ -96,7 +96,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        """to return fixture data for integration test."""
+        """Patch requests.get to return fixture data for integration test."""
         cls.get_patcher = patch("requests.get")
         mock_get = cls.get_patcher.start()
 
