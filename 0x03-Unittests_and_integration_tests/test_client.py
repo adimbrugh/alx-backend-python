@@ -5,6 +5,7 @@ import unittest
 from unittest.mock import patch, PropertyMock
 from parameterized import parameterized
 from client import GithubOrgClient
+from unittest import TestCase
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -81,7 +82,8 @@ class TestGithubOrgClient(unittest.TestCase):
         result = GithubOrgClient.has_license(repo, license_key)
         self.assertEqual(result, expected)
         
-class TestIntegrationGithubOrgClient(unittest .TestCase):
+        
+class TestIntegrationGithubOrgClient(TestCase):
     """Integration tests for GithubOrgClient.public_repos"""
 
     @classmethod
