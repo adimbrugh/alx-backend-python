@@ -82,7 +82,7 @@ class TestGithubOrgClient(unittest.TestCase):
         result = GithubOrgClient.has_license(repo, license_key)
         self.assertEqual(result, expected)
         
- """       
+        
 @parameterized_class([
     {
         "org_payload": fixtures.org_payload,
@@ -91,14 +91,8 @@ class TestGithubOrgClient(unittest.TestCase):
         "apache2_repos": fixtures.apache2_repos
     }
 ])
-"""
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """Integration tests for GithubOrgClient.public_repos"""
-    def setUp(self):
-        self.org_payload = fixtures.org_payload
-        self.repos_payload = fixtures.repos_payload
-        self.expected_repos = fixtures.expected_repos
-        self.apache2_repos = fixtures.apache2_repos
 
     @classmethod
     def setUpClass(cls):
