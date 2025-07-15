@@ -80,3 +80,17 @@ class TestGithubOrgClient(unittest.TestCase):
         """Test that has_license correctly checks for the license key."""
         result = GithubOrgClient.has_license(repo, license_key)
         self.assertEqual(result, expected)
+        
+class TestIntegrationGithubOrgClient(unittest .TestCase):
+    """Integration tests for GithubOrgClient.public_repos"""
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up class-wide patching of get_json"""
+        cls.get_patcher = patch("client.get_json")
+        cls.mock_get_json = cls.get_patcher.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        """Stop the get_json patch"""
+        cls.get_patcher.stop()
