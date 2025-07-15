@@ -78,7 +78,7 @@ class TestGithubOrgClient(unittest.TestCase):
         ({"license": {"key": "other_license"}}, "my_license", False),
     ])
     def test_has_license(self, repo, license_key, expected):
-        """Test that has_license correctly checks for the license key."""
+        """Test that has_license correctly checks for the license key"""
         result = GithubOrgClient.has_license(repo, license_key)
         self.assertEqual(result, expected)
         
@@ -96,7 +96,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        """Patch requests.get to return fixture data for integration test."""
+        """to return fixture data for integration test."""
         cls.get_patcher = patch("requests.get")
         mock_get = cls.get_patcher.start()
 
@@ -118,10 +118,12 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     def test_public_repos(self):
         """Integration test for public_repos"""
         client = GithubOrgClient("google")
-        self.assertEqual(client.public_repos(), self.expected_repos)
+        self.assertEqual(
+            client.public_repos(), self.expected_repos
+        )
 
     def test_public_repos_with_license(self):
-        """Integration test for public_repos filtered by license"""
+        """Integration for public_repos filtered by license"""
         client = GithubOrgClient("google")
         self.assertEqual(
             client.public_repos(license="apache-2.0"),
