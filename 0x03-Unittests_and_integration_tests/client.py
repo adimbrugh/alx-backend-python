@@ -28,3 +28,4 @@ class GithubOrgClient:
     def has_license(repo, license_key):
         """Check if the repo has the given license key."""
         return repo.get("license", {}).get("key") == license_key
+    
