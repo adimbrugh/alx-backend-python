@@ -3,9 +3,8 @@
 
 import unittest
 from unittest.mock import patch, PropertyMock
-from parameterized import parameterized, parameterized_class
+from parameterized import parameterized
 from client import GithubOrgClient
-
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -78,29 +77,37 @@ class TestGithubOrgClient(unittest.TestCase):
         ({"license": {"key": "other_license"}}, "my_license", False),
     ])
     def test_has_license(self, repo, license_key, expected):
-        """Test that has_license correctly checks for the license key"""
+        """Test that has_license correctly checks for the license key."""
         result = GithubOrgClient.has_license(repo, license_key)
         self.assertEqual(result, expected)
         
         
+        
+from unittest import TestCase
+from unittest.mock import patch
+from parameterized import parameterized_class
+from client import GithubOrgClient
+import fixtures
+
+
 @parameterized_class([
     {
-        "org_payload",
-        "repos_payload",
-        "expected_repos",
-        "apache2_repos"
+        "org_payload": fixtures.org_payload,
+        "repos_payload": fixtures.repos_payload,
+        "expected_repos": fixtures.expected_repos,
+        "apache2_repos": fixtures.apache2_repos
     }
 ])
-class TestIntegrationGithubOrgClient(unittest.TestCase):
+class TestIntegrationGithubOrgClient(TestCase):
     """Integration tests for GithubOrgClient.public_repos"""
 
     @classmethod
     def setUpClass(cls):
-        """to return fixture data for integration test."""
+        """Patch requests.get to return fixture data for integration test."""
         cls.get_patcher = patch("requests.get")
         mock_get = cls.get_patcher.start()
 
-        """ Set up mock response behavior"""
+        # Set up mock response behavior
         def side_effect(url):
             if url == f"https://api.github.com/orgs/google":
                 return MockResponse(cls.org_payload)
@@ -118,12 +125,10 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     def test_public_repos(self):
         """Integration test for public_repos"""
         client = GithubOrgClient("google")
-        self.assertEqual(
-            client.public_repos(), self.expected_repos
-        )
+        self.assertEqual(client.public_repos(), self.expected_repos)
 
     def test_public_repos_with_license(self):
-        """Integration for public_repos filtered by license"""
+        """Integration test for public_repos filtered by license"""
         client = GithubOrgClient("google")
         self.assertEqual(
             client.public_repos(license="apache-2.0"),
