@@ -11,6 +11,7 @@ class GithubOrgClient:
     @property
     def org(self):
         """Fetch organization metadata."""
+        
         url = f"https://api.github.com/orgs/{self.org_name}"
         return get_json(url)
     
@@ -29,4 +30,3 @@ class GithubOrgClient:
     def has_license(repo, license_key):
         """Check if the repo has the given license key."""
         return repo.get("license", {}).get("key") == license_key
-    
