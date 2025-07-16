@@ -5,14 +5,16 @@ from .views import ConversationViewSet, MessageViewSet
 
 # Explicit DefaultRouter instance (as required)
 router = DefaultRouter()
-router.register(r'conversations', ConversationViewSet, basename='conversations')
-router.register(r'messages', MessageViewSet, basename='messages')  # Optional global access
+router.register('conversations', ConversationViewSet, basename='conversations')
+router.register('messages', MessageViewSet, basename='messages')  # Optional global access
 
 # Nested router for /conversations/{conversation_id}/messages/
-nested_router = NestedDefaultRouter(router, r'conversations', lookup='conversation')
-nested_router.register(r'messages', MessageViewSet, basename='conversation-messages')
+nested_router = NestedDefaultRouter(router, 'conversations', lookup='conversation')
+nested_router.register('messages', MessageViewSet, basename='conversation-messages')
 
 urlpatterns = [
     path('', include(router.urls)),          # DefaultRouter endpoints
     path('', include(nested_router.urls)),   # Nested endpoints
 ]
+
+urlpatterns += router.urls
