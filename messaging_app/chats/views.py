@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions, status, filters  # ✅ filters added
+from rest_framework import viewsets, permissions, status, filters 
 from rest_framework.response import Response
 from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
@@ -8,7 +8,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
     serializer_class = ConversationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    # ✅ Add filtering by title
+    # Add filtering by title
     filter_backends = [filters.SearchFilter]
     search_fields = ['title']
 
@@ -21,7 +21,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    # ✅ Add filtering by conversation ID
+    # Add filtering by conversation ID
     filter_backends = [filters.SearchFilter]
     search_fields = ['conversation__conversation_id']
 
