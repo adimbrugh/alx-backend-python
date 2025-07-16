@@ -171,3 +171,6 @@ rest_framework = {
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_yasg.generators.OpenAPISchemaGenerator',
 }
+
+
+auth_user_model = 'chat.User'
