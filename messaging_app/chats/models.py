@@ -3,15 +3,18 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
-# -----------------------
-# 1. Custom User Model
-# -----------------------
+
+# Custom User Model
+
 class User(AbstractUser):
     user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(unique=True)
+    email = models.EmailField('email address', unique=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
     is_online = models.BooleanField(default=False)
+    
+    # Explicitly define password field (overrides inherited one for clarity)
+    password = models.CharField(_('password'), max_length=128)
 
     # Override username-related field requirements
     REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
@@ -20,9 +23,9 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-# -----------------------
-# 2. Conversation Model
-# -----------------------
+
+# Conversation Model
+
 class Conversation(models.Model):
     conversation_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255, blank=True)
@@ -32,9 +35,9 @@ class Conversation(models.Model):
     def __str__(self):
         return f"Conversation {self.title or self.conversation_id}"
 
-# -----------------------
-# 3. Message Model
-# -----------------------
+
+# Message Model
+
 class Message(models.Model):
     message_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
