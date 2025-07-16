@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from .models import User, Conversation, Message
 
-# -----------------------
-# 1. User Serializer
-# -----------------------
+
+# User Serializer
+
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField()  # ✔️ SerializerMethodField
     username = serializers.CharField()  # ✔️ CharField explicitly declared
@@ -25,9 +25,9 @@ class UserSerializer(serializers.ModelSerializer):
     def get_full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}".strip()
 
-# -----------------------
-# 2. Message Serializer
-# -----------------------
+
+# Message Serializer
+
 class MessageSerializer(serializers.ModelSerializer):
     sender_username = serializers.SerializerMethodField()
     message_body = serializers.CharField()
@@ -47,10 +47,10 @@ class MessageSerializer(serializers.ModelSerializer):
 
     def get_sender_username(self, obj):
         return obj.sender.username
+        
 
-# -----------------------
-# 3. Conversation Serializer
-# -----------------------
+# Conversation Serializer
+
 class ConversationSerializer(serializers.ModelSerializer):
     participants = UserSerializer(many=True, read_only=True)
     messages = MessageSerializer(many=True, read_only=True)
@@ -67,7 +67,7 @@ class ConversationSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['conversation_id', 'created_at']
 
-    # ✔️ Example ValidationError usage
+    # Example ValidationError usage
     def validate_title(self, value):
         if len(value.strip()) < 3:
             raise serializers.ValidationError("Title must be at least 3 characters long.")
