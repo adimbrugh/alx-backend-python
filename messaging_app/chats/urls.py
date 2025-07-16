@@ -9,7 +9,7 @@ from .views import ConversationViewSet, MessageViewSet, UserViewSet
 
 
 # This router will handle the main endpoints for users, conversations, and messages
-router = DefaultRouter()
+router = routers.DefaultRouter()
 router.register('users', UserViewSet) 
 router.register('conversations', ConversationViewSet)
 router.register('messages', MessageViewSet)
