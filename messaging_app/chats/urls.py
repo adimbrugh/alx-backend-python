@@ -25,20 +25,24 @@ users_router.register('conversations', ConversationViewSet, basename='user-conve
 
 # Nested router for /conversations/{conversation_id}/messages/
 # This allows for nested routing under conversations
-conversations_router = routers.NestedDefaultRouter(users_router, 'conversations', lookup='conversation')
+conversation_router = routers.NestedDefaultRouter(users_router, 'conversations', lookup='conversation')
 
 # Registering messages under conversations
 # This allows for endpoints like /conversations/{conversation_id}/messages/
-conversations_router.register('messages', MessageViewSet, basename='conversation-messages')
+conversation_router.register('messages', MessageViewSet, basename='conversation-messages')
 
 
+urlpatterns = router.urls + users_router.urls + conversation_router.urls
+
+"""
 # Main urlpatterns for the app
 urlpatterns = [
     
     path('', include(router.urls)),  # Main endpoints for users, conversations, and messages
     path('', include(users_router.urls)), # Nested endpoints for user conversations
-    path('', include(conversations_router.urls)), # Nested endpoints for messages
+    path('', include(conversation_router.urls)), # Nested endpoints for messages
     
 ]
 
 urlpatterns += router.urls # This line ensures that the main router's URLs are included in the urlpatterns
+"""
