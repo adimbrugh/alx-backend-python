@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from utils import get_json
 
 class GithubOrgClient:
@@ -11,7 +9,6 @@ class GithubOrgClient:
     @property
     def org(self):
         """Fetch organization metadata."""
-        
         url = f"https://api.github.com/orgs/{self.org_name}"
         return get_json(url)
     
