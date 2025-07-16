@@ -1,3 +1,5 @@
+
+
 from rest_framework import serializers
 from .models import User, Conversation, Message
 
@@ -20,6 +22,12 @@ class UserSerializer(serializers.ModelSerializer):
             'profile_photo',
             'is_online',
             'full_name',
+            'bio',
+            'date_joined',
+            'avatar',
+            'last_login',
+            'is_active',
+            
         ]
 
     def get_full_name(self, obj):

@@ -1,3 +1,5 @@
+
+
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -11,6 +13,11 @@ class User(AbstractUser):
     email = models.EmailField('email address', unique=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
+    bio = models.TextField(blank=True, null=True) #
+    date_joined = models.DateTimeField(auto_now_add=True) 
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    last_login = models.DateTimeField(null=True, blank=True)
+    is_active = models.BooleanField(default=True) 
     is_online = models.BooleanField(default=False)
     
     # Explicitly define password field (overrides inherited one for clarity)
