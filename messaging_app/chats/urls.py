@@ -34,9 +34,13 @@ conversations_router.register('messages', MessageViewSet, basename='conversation
 
 # Main urlpatterns for the app
 urlpatterns = [
+    
     path('', include(router.urls)),  # Main endpoints for users, conversations, and messages
     path('', include(users_router.urls)), # Nested endpoints for user conversations
     path('', include(conversations_router.urls)), # Nested endpoints for messages
+    path('api-auth/', include('rest_framework.urls')),  # Enable DRF’s browsable login/logout UI
+    path('api/v1/', include('chats.urls')),  # Include the main app
+    
 ]
 
 urlpatterns += router.urls # This line ensures that the main router's URLs are included in the urlpatterns

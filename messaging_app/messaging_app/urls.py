@@ -19,6 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include('chats.urls')),
+    path('api/v1/', include('chats.urls')), # Include the main app's URLs
     path('api-auth/', include('rest_framework.urls')), # This line enables the browsable API for authentication # Enable DRF’s browsable login/logout UI
 ]
