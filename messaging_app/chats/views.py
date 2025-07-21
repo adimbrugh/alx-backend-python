@@ -20,7 +20,14 @@ class ConversationViewSet(viewsets.ModelViewSet):
     queryset = Conversation.objects.all().order_by('-created_at')
     serializer_class = ConversationSerializer
     permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        return Conversation.objects.filter(participants=self.request.user)
 
+    def perform_create(self, serializer):
+        serializer.save(participants=[self.request.user])
+        
+"""
     # Add filtering by title
     filter_backends = [filters.SearchFilter]
     search_fields = ['title']
@@ -28,12 +35,23 @@ class ConversationViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         conversation = serializer.save()
         conversation.participants.add(self.request.user)
+"""
+
 
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all().order_by('-sent_at')
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        return Message.objects.filter(conversation__participants=self.request.user)
 
+    def perform_create(self, serializer):
+        serializer.save(sender=self.request.user)
+
+
+
+"""
     # Add filtering by conversation ID
     filter_backends = [filters.SearchFilter]
     search_fields = ['conversation__conversation_id']
@@ -43,3 +61,4 @@ class MessageViewSet(viewsets.ModelViewSet):
         if not conversation.participants.filter(user_id=self.request.user.user_id).exists():
             raise permissions.PermissionDenied("You are not a participant in this conversation.")
         serializer.save(sender=self.request.user)
+"""
