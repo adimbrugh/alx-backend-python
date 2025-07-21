@@ -4,14 +4,14 @@ from rest_framework import viewsets, permissions, status, filters
 from rest_framework.response import Response
 from .models import Conversation, Message, User
 from .serializers import ConversationSerializer, MessageSerializer, UserSerializer
-from .permissions import IsParticipantOrSender
+from .permissions import IsParticipantOfConversation
 
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated, IsParticipantOrSender]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         return self.queryset.filter(is_active=True)
@@ -24,7 +24,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class ConversationViewSet(viewsets.ModelViewSet):
     queryset = Conversation.objects.all().order_by('-created_at')
     serializer_class = ConversationSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsParticipantOfConversation]
 
     # Add filtering by title
     filter_backends = [filters.SearchFilter]
@@ -42,7 +42,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all().order_by('-sent_at')
     serializer_class = MessageSerializer
-    permission_classes = [permissions.IsAuthenticated, IsParticipantOrSender]
+    permission_classes = [IsParticipantOfConversation]
 
     # Add filtering by conversation ID
     filter_backends = [filters.SearchFilter]
