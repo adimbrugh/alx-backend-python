@@ -45,7 +45,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all().order_by('-sent_at')
     serializer_class = MessageSerializer
-    permission_classes = [IsAuthenticated,IsParticipantOfConversation]
+    permission_classes = [IsParticipantOfConversation]
 
     # Add filtering by conversation ID
     filter_backends = [filters.SearchFilter]
