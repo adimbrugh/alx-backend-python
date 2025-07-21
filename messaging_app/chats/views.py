@@ -8,6 +8,9 @@ from .permissions import IsParticipantOfConversation
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.status import HTTP_403_FORBIDDEN
+from django_filters.rest_framework import DjangoFilterBackend
+from .pagination import MessagePagination
+from .filters import MessageFilter
 
 
 
@@ -45,20 +48,26 @@ class ConversationViewSet(viewsets.ModelViewSet):
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all().order_by('-sent_at')
     serializer_class = MessageSerializer
-    permission_classes = [IsParticipantOfConversation]
+    permission_classes = [IsAuthenticated, IsParticipantOfConversation]
+    pagination_class = MessagePagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = MessageFilter
+
 
     # Add filtering by conversation ID
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['conversation__conversation_id']
+    #filter_backends = [filters.SearchFilter]
+    #search_fields = ['conversation__conversation_id']
     
     def get_queryset(self):
         return Message.objects.filter(conversation__participants=self.request.user)
 
     def perform_create(self, serializer):
         conversation = serializer.validated_data.get('conversation')
+        #if self.request.user not in conversation.participants.all():
+         #   raise PermissionDenied(detail="You are not a participant in this conversation.")
         if self.request.user not in conversation.participants.all():
-            raise PermissionDenied(detail="You are not a participant in this conversation.")
-        if self.request.user not in conversation.participants.all():
+            from rest_framework.response import Response
+            from rest_framework.status import HTTP_403_FORBIDDEN
             return Response(
                 {"detail": "You are not a participant in this conversation."},
                 status=HTTP_403_FORBIDDEN

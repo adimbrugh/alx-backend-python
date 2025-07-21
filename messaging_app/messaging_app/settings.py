@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'chats.apps.ChatConfig',
     'rest_framework',
+    'django_filters',
     'corsheaders',
     'drf_yasg',
     
@@ -163,15 +164,14 @@ rest_framework = {
         #'rest_framework.authentication.SessionAuthentication',
         #'rest_framework.authentication.BasicAuthentication',
     ),
+    
     'DEFAULT_PERMISSION_CLASSES': (
         'chats.permissions.IsParticipantOfConversation' ,
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ),
+    
+    'DEFAULT_PAGINATION_CLASS': 'chats.pagination.MessagePagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_RENDERER_CLASSES': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_SCHEMA_CLASS': 'drf_yasg.generators.OpenAPISchemaGenerator',
 }
 
