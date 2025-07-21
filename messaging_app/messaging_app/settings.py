@@ -165,13 +165,12 @@ rest_framework = {
         #'rest_framework.authentication.BasicAuthentication',
     ),
     
-    'DEFAULT_PERMISSION_CLASSES': (
-        'chats.permissions.IsParticipantOfConversation' ,
-    ),
-    
-    'DEFAULT_PAGINATION_CLASS': 'chats.pagination.MessagePagination',
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  # <-- this line must exist
     'PAGE_SIZE': 20,
-    'DEFAULT_RENDERER_CLASSES': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_SCHEMA_CLASS': 'drf_yasg.generators.OpenAPISchemaGenerator',
 }
 
