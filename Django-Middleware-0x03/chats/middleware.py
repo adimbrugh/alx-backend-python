@@ -89,6 +89,7 @@ class OffensiveLanguageMiddleware:
         return ip
 
 
+from django.http import HttpResponseForbidden
 
 class RolePermissionMiddleware:
     def __init__(self, get_response):
