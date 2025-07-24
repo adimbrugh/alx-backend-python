@@ -3,6 +3,7 @@
 from rest_framework import permissions
 
 
+
 class IsParticipantOfConversation(permissions.BasePermission):
     """
     Allows only authenticated users who are participants of a conversation

@@ -1,14 +1,15 @@
 
 
-from rest_framework import viewsets, permissions, filters 
-from rest_framework.response import Response
-from .models import Conversation, Message, User
+
 from .serializers import ConversationSerializer, MessageSerializer, UserSerializer
-from .permissions import IsParticipantOfConversation
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, permissions, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.status import HTTP_403_FORBIDDEN
-from django_filters.rest_framework import DjangoFilterBackend
+from .permissions import IsParticipantOfConversation
+from .models import Conversation, Message, User
+from rest_framework.response import Response
 from .pagination import MessagePagination
 from .filters import MessageFilter
 
@@ -52,7 +53,6 @@ class MessageViewSet(viewsets.ModelViewSet):
     pagination_class = MessagePagination
     filter_backends = [DjangoFilterBackend]
     filterset_class = MessageFilter
-
 
     # Add filtering by conversation ID
     #filter_backends = [filters.SearchFilter]

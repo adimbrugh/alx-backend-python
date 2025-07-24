@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    
     'rest_framework_simplejwt',
     'chats.apps.ChatsConfig',
     'rest_framework',
@@ -144,6 +146,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import environ
 import os
 
+
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
@@ -165,6 +168,7 @@ DATABASES = {
 }
 
 
+
 rest_framework = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -180,6 +184,8 @@ rest_framework = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_SCHEMA_CLASS': 'drf_yasg.generators.OpenAPISchemaGenerator',
 }
+
+
 
 #auth_user_model = 'chats.User'
 AUTH_USER_MODEL = 'chats.User'

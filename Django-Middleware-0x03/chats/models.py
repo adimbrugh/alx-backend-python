@@ -2,13 +2,13 @@
 
 import uuid
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
+
 
 
 # Custom User Model
-
 class User(AbstractUser):
     user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField('email address', unique=True)
@@ -32,8 +32,8 @@ class User(AbstractUser):
         return self.username
 
 
-# Conversation Model
 
+# Conversation Model
 class Conversation(models.Model):
     conversation_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255, blank=True)
@@ -44,8 +44,8 @@ class Conversation(models.Model):
         return f"Conversation {self.title or self.conversation_id}"
 
 
-# Message Model
 
+# Message Model
 class Message(models.Model):
     message_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')

@@ -6,6 +6,7 @@ from django.http import HttpResponseForbidden
 from django.http import HttpResponseTooManyRequests
 
 
+
 # Configure logger (writes to requests.log)
 logger = logging.getLogger(__name__)
 handler = logging.FileHandler("requests.log")
@@ -13,6 +14,7 @@ formatter = logging.Formatter('%(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
+
 
 
 class RequestLoggingMiddleware:
