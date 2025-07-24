@@ -57,7 +57,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
     
-    'chats.middleware.RequestLoggingMiddleware', # ✅ Add this line (adjust path if needed)
+    #Custom middlewares
+    'chats.middleware.RequestLoggingMiddleware',
+    'chats.middleware.RestrictAccessByTimeMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
