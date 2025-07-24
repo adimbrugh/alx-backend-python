@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework_simplejwt',
-    'chats.apps.ChatConfig',
+    'chats.apps.ChatsConfig',
     'rest_framework',
     'django_filters',
     'corsheaders',
@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'chats.middleware.RequestLoggingMiddleware', # ✅ Add this line (adjust path if needed)
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -174,7 +175,8 @@ rest_framework = {
     'DEFAULT_SCHEMA_CLASS': 'drf_yasg.generators.OpenAPISchemaGenerator',
 }
 
-auth_user_model = 'chat.User'
+#auth_user_model = 'chats.User'
+AUTH_USER_MODEL = 'chats.User'
 
 
 
