@@ -55,7 +55,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'chats.middleware.LoggingMiddleware', # ✅ Add this line (adjust path if needed)
+    
+    
+    'chats.middleware.RequestLoggingMiddleware', # ✅ Add this line (adjust path if needed)
 ]
 
 ROOT_URLCONF = 'config.urls'
