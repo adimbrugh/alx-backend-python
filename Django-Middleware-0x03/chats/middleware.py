@@ -89,9 +89,8 @@ class OffensiveLanguageMiddleware:
         return ip
 
 
-from django.http import HttpResponseForbidden
 
-class RolePermissionMiddleware:
+class RolepermissionMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         self.allowed_roles = ['admin', 'moderator']
