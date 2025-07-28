@@ -5,11 +5,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, permissions, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
-from django.shortcuts import render, get_object_or_404
+#from django.shortcuts import render, get_object_or_404
 from rest_framework.status import HTTP_403_FORBIDDEN
 from .permissions import IsParticipantOfConversation
-from django.views.decorators.cache import cache_page
-from django.utils.decorators import method_decorator
+#from django.views.decorators.cache import cache_page
+#from django.utils.decorators import method_decorator
 from .models import Conversation, Message, User
 from rest_framework.response import Response
 from .pagination import MessagePagination
@@ -79,7 +79,7 @@ class MessageViewSet(viewsets.ModelViewSet):
         serializer.save(sender=self.request.user)
 
 
-
+"""
 @cache_page(60)  # 60 seconds cache
 def conversation_messages(request, conversation_id):
     conversation = get_object_or_404(Conversation, id=conversation_id)
@@ -89,3 +89,4 @@ def conversation_messages(request, conversation_id):
         'conversation': conversation,
         'messages': messages
     })
+"""
