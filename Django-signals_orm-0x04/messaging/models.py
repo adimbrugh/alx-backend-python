@@ -5,6 +5,13 @@ from django.contrib.auth.models import User
 
 
 
+
+class UnreadMessagesManager(models.Manager):
+    def for_user(self, user):
+        return self.get_queryset().filter(receiver=user, read=False).only('id', 'sender', 'timestamp', 'content')
+
+
+
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
@@ -12,13 +19,10 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     edited = models.BooleanField(default=False)
     edited_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='edited_messages')
-    parent_message = models.ForeignKey(
-    'self',
-    null=True,
-    blank=True,
-    on_delete=models.CASCADE,
-    related_name='replies'
-)
+    read = models.BooleanField(default=False)  # Track if the message was read
+    objects = models.Manager()  # Default manager
+    unread = UnreadMessagesManager()  # Custom manager for unread messages
+    parent_message = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
 
     def __str__(self):
         return f"From {self.sender} to {self.receiver}: {self.content[:20]}"

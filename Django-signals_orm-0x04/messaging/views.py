@@ -42,3 +42,13 @@ def fetch_thread(message):
             'replies': fetch_thread(reply)  # recurse
         })
     return thread
+
+
+
+@login_required
+def unread_inbox_view(request):
+    unread_msgs = Message.unread.for_user(request.user)
+
+    return render(request, 'messaging/unread_inbox.html', {
+        'unread_messages': unread_msgs
+    })
