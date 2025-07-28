@@ -47,7 +47,7 @@ def fetch_thread(message):
 
 @login_required
 def unread_inbox_view(request):
-    unread_messages = Message.unread.unread.for_user(request.user).only(
+    unread_messages = Message.unread.unread_for_user(request.user).only(
         'id', 'sender', 'timestamp', 'content'
     )  # Uses the custom manager + optimized .only()
 
