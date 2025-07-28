@@ -19,16 +19,25 @@ def delete_user(request):
 
 
 
-def get_conversation_with_threads(user1, user2):
-    base_messages = Message.objects.filter(
-        sender__in=[user1, user2],
-        receiver__in=[user1, user2],
-        parent_message__isnull=True
-    ).select_related('sender', 'receiver').prefetch_related(
-        Prefetch('replies', queryset=Message.objects.select_related('sender', 'receiver'))
-    ).order_by('timestamp')
+@login_required
+def conversation_view(request, other_user_id):
+    user = request.user
 
-    return base_messages
+    # Fetch all parent messages (non-replies) between the two users
+    messages = Message.objects.filter(
+        sender__id__in=[user.id, other_user_id],
+        receiver__id__in=[user.id, other_user_id],
+        parent_message__isnull=True
+    ).select_related('sender', 'receiver') \
+     .prefetch_related(
+         Prefetch(
+             'replies',
+             queryset=Message.objects.select_related('sender', 'receiver')
+         )
+     ).order_by('timestamp')
+
+    return render(request, 'messaging/conversation.html', {'messages': messages})
+
 
 
 
