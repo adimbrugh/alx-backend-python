@@ -149,13 +149,14 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
+        'NAME': os.getenv('DB_NAME', 'messaging_db'),
+        'USER': os.getenv('DB_USER', 'messaging_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'messaging_pass'),
+        'HOST': os.getenv('DB_HOST', 'db'),
+        'PORT': os.getenv('DB_PORT', '3306'),
     }
 }
+
 
 
 rest_framework = {
@@ -173,6 +174,8 @@ rest_framework = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_SCHEMA_CLASS': 'drf_yasg.generators.OpenAPISchemaGenerator',
 }
+
+
 
 auth_user_model = 'chat.User'
 
