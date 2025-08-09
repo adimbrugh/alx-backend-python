@@ -48,4 +48,4 @@ wadllib==1.3.3
 zipp==1.0.0
 zope.interface>=5.0.0
 Django>=5.1
-mysqlclient>=2.2
+mysqlclient>=2.2.0

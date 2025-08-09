@@ -27,7 +27,7 @@ services:
     depends_on:
       - db
     volumes:
-      - .:/app:cashed
+      - .:/app
     ports:
       - "8000:8000"
 
