@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# kubctl-0x01 - Scale Django app, verify scaling, load test, monitor resources
+
+DEPLOYMENT_NAME="messaging-app-deployment"
+NAMESPACE="default"
+TARGET_REPLICAS=3
+SERVICE_NAME="messaging-app-service"
+PORT=8000
+
+echo "🔄 Scaling deployment $DEPLOYMENT_NAME to $TARGET_REPLICAS replicas..."
+kubectl scale deployment $DEPLOYMENT_NAME --replicas=$TARGET_REPLICAS -n $NAMESPACE
+
+echo "⏳ Waiting for pods to be ready..."
+kubectl wait --for=condition=ready pod -l app=messaging-app -n $NAMESPACE --timeout=120s
+
+echo "✅ Current Pods:"
+kubectl get pods -l app=messaging-app -n $NAMESPACE
+
+# Get Minikube service URL for load testing
+echo "🌐 Retrieving service URL..."
+MINIKUBE_IP=$(minikube ip)
+NODE_PORT=$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o=jsonpath='{.spec.ports[0].nodePort}')
+APP_URL="http://$MINIKUBE_IP:$NODE_PORT"
+
+echo "🚀 Running load test on $APP_URL"
+wrk -t2 -c50 -d10s $APP_URL
+
+echo "📊 Monitoring resource usage (Press Ctrl+C to stop)..."
+kubectl top pods -n $NAMESPACE
