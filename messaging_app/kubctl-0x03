@@ -1,0 +1,30 @@
+#!/bin/bash
+
+DEPLOYMENT_FILE="messaging_app/blue_deployment.yaml"
+DEPLOYMENT_NAME="messaging-app-blue"
+NAMESPACE="default"
+APP_URL="http://$(minikube ip):<node-port>"  # Replace <node-port> with your exposed port
+TEST_DURATION=30  # seconds
+
+echo "🚀 Applying updated deployment for rolling update..."
+kubectl apply -f $DEPLOYMENT_FILE
+
+echo "⏳ Monitoring rollout status..."
+kubectl rollout status deployment/$DEPLOYMENT_NAME -n $NAMESPACE
+
+echo "🔄 Testing app availability during rollout for $TEST_DURATION seconds..."
+end=$((SECONDS+TEST_DURATION))
+
+while [ $SECONDS -lt $end ]; do
+    status_code=$(curl -s -o /dev/null -w "%{http_code}" $APP_URL)
+    timestamp=$(date +"%T")
+    if [ "$status_code" -eq 200 ]; then
+        echo "$timestamp - OK ($status_code)"
+    else
+        echo "$timestamp - ERROR ($status_code)"
+    fi
+    sleep 2
+done
+
+echo "📋 Checking current pods status:"
+kubectl get pods -l app=messaging-app,version=blue -n $NAMESPACE
