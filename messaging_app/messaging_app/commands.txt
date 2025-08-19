@@ -1,5 +1,0 @@
-if [ -s messaging_app/commands.txt ]; then
-    echo "✅ commands.txt exists and is not empty."
-else
-    echo "❌ commands.txt is missing or empty."
-fi
