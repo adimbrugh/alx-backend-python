@@ -37,8 +37,9 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          python -m pip3 install --upgrade pip3
-          pip3 install -r messaging_app/requirements.txt
+          python -m pip install --upgrade pip
+          pip install -r messaging_app/requirements.txt
+          pip install flake8 coverage pytest-cov
 
       - name: Wait for MySQL
         run: |
@@ -48,7 +49,14 @@ jobs:
             sleep 5
           done
 
-      - name: Run Tests
+      - name: Lint with flake8
+        run: |
+          # Fail if there are Python syntax errors or undefined names
+          flake8 messaging_app --count --select=E9,F63,F7,F82 --show-source --statistics
+          # Fail if the total line count exceeds style guide (PEP8)
+          flake8 messaging_app --count --exit-zero --max-complexity=10 --max-line-length=100 --statistics
+
+      - name: Run Tests with Coverage
         env:
           DB_NAME: test_db
           DB_USER: test_user
@@ -58,4 +66,10 @@ jobs:
         run: |
           cd messaging_app
           python manage.py migrate
-          pytest --maxfail=1 --disable-warnings -q
+          pytest --cov=. --cov-report=xml --cov-report=html
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: messaging_app/htmlcov
